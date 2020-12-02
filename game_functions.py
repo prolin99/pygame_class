@@ -8,6 +8,7 @@ from ship import Ship
 from alien import Alien
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 
 from pygame.sprite import Group
 
@@ -28,6 +29,7 @@ class Game_functions():
         self.stats = GameStats(self.ai_settings)
 
         self.play_button = Button(self.ai_settings , self.screen , "Play")
+        self.sb  = Scoreboard(self.ai_settings, self.screen , self.stats)
 
     def check_keydown_events(self):
         if self.event.key == pygame.K_RIGHT:
@@ -56,7 +58,7 @@ class Game_functions():
             elif self.event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x , mouse_y = pygame.mouse.get_pos()
                 self.check_play_button( mouse_x, mouse_y)
-
+    #play 鍵按下
     def check_play_button(self, mouse_x , mouse_y):
         if self.play_button.rect.collidepoint(mouse_x, mouse_y) and not self.stats.game_active:
             self.stats.reset_stats()
@@ -65,6 +67,7 @@ class Game_functions():
             self.ship.center_ship()
             self.create_fleet()
             self.stats.game_active = True
+            self.ai_settings.initialize_dynamic_settings()
 
             pygame.mouse.set_visible(False)
 
@@ -80,6 +83,7 @@ class Game_functions():
             self.update_aliens()
             if not self.stats.game_active:
                 self.play_button.draw_button()
+            self.sb.show_score()
 
             #
             pygame.display.flip()
@@ -98,9 +102,14 @@ class Game_functions():
         #是否撃中 ，擊中後就會自動刪除 groupcollide(group1, group2, dokill1, dokill2, collided = None) -> Sprite_dict
         collisions = pygame.sprite.groupcollide(self.bullets,self.aliens , True, True )
 
+        if collisions :
+            self.stats.score += self.ai_settings.alien_point
+            self.sb.prep_score()
+
         if len(self.aliens) ==0 :
             self.bullets.empty()
             self.create_fleet()
+            self.ai_settings.increase_speed()
 
 
     def fire_bullet(self):
