@@ -2,7 +2,7 @@ import pygame.font
 
 class Scoreboard():
     def __init__(self,ai_settings, screen , stats):
-        self.screen = screen 
+        self.screen = screen
         self.screen_rect = screen.get_rect()
         self.ai_settings = ai_settings
         self.stats = stats
@@ -11,9 +11,11 @@ class Scoreboard():
         self.font = pygame.font.SysFont(None , 48)
 
         self.prep_score()
-        
+
     def prep_score(self):
-        score_str = str(self.stats.score)
+        rounded_score = int(round(self.stats.score , -1 ))
+        score_str = "{:,}".format(round(rounded_score))
+        #score_str = str(self.stats.score)
         self.score_image = self.font.render(score_str, True , self.text_color, self.ai_settings.bg_color)
 
         self.score_rect = self.score_image.get_rect()
@@ -22,4 +24,4 @@ class Scoreboard():
 
     def show_score(self):
         self.screen.blit(self.score_image, self.score_rect)
-         
+
