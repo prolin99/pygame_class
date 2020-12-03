@@ -71,6 +71,7 @@ class Game_functions():
             self.sb.prep_level()
             self.sb.prep_score()
             self.sb.prep_high_score()
+            self.sb.prep_ships()
 
 
             pygame.mouse.set_visible(False)
@@ -202,6 +203,8 @@ class Game_functions():
 
             self.create_fleet()
             self.ship.center_ship()
+
+            self.sb.prep_ships()
         else:
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
