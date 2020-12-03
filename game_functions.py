@@ -26,7 +26,7 @@ class Game_functions():
         self.aliens = Group()
         self.create_fleet()
 
-        self.stats = GameStats(self.ai_settings)
+        self.stats = GameStats(self.ai_settings )
 
         self.play_button = Button(self.ai_settings , self.screen , "Play")
         self.sb  = Scoreboard(self.ai_settings, self.screen , self.stats)
@@ -68,6 +68,10 @@ class Game_functions():
             self.create_fleet()
             self.stats.game_active = True
             self.ai_settings.initialize_dynamic_settings()
+            self.sb.prep_level()
+            self.sb.prep_score()
+            self.sb.prep_high_score()
+
 
             pygame.mouse.set_visible(False)
 
@@ -114,6 +118,8 @@ class Game_functions():
             self.bullets.empty()
             self.create_fleet()
             self.ai_settings.increase_speed()
+            self.stats.level += 1
+            self.sb.prep_level()
 
 
     def fire_bullet(self):
