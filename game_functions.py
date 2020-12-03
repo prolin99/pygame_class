@@ -105,6 +105,10 @@ class Game_functions():
         if collisions :
             self.stats.score += self.ai_settings.alien_point
             self.sb.prep_score()
+            if self.stats.high_score < self.stats.score :
+                self.stats.high_score = self.stats.score
+                self.sb.prep_high_score()
+
 
         if len(self.aliens) ==0 :
             self.bullets.empty()

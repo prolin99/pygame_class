@@ -32,10 +32,12 @@ class Settings():
 
         self.alien_point = 50
 
+    #加速
     def increase_speed(self):
         self.ship_speed_factor *= self.speedup_scale
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
+        self.fleet_drop_speed *= self.speedup_scale
 
         self.alien_point = int(self.alien_point *  self.score_scale)
 
